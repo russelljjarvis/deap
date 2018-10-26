@@ -127,8 +127,9 @@ def assignCrowdingDist(individuals):
     crowd = [(ind.fitness.values, i) for i, ind in enumerate(individuals)]
     # Cover the case where the population contains unevaluated genes or genes with no error
     # For whatever reason.
-    crowd = [(i,j) for i,j in crowd if len(i) == nobj]
-
+    # filter the crowd such that it does not contain empty genes
+    crowd = [ (i[0],i[1]) for i in crowd if len(i[0]) == nobj ]
+    
     for i in xrange(nobj):
         crowd.sort(key=lambda element: element[0][i])
         distances[crowd[0][1]] = float("inf")
